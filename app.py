@@ -4,7 +4,8 @@ from flask import Flask
 from config.dev import DevConfig
 from config.prod import ProdConfig
 from database.db import Database
-from models.users import User   # 👈 IMPORTANT
+from models.users import User
+from routes.auth_routes import auth_bp
 
 
 def create_app():
@@ -29,6 +30,8 @@ def create_app():
     def user_test():
         user = User.find_by_email("test@example.com")
         return str(user)
+    
+    app.register_blueprint(auth_bp)
 
     return app
 
