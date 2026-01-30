@@ -21,3 +21,21 @@ def signup():
         return jsonify(result), 400
 
     return jsonify(result), 201
+
+
+@auth_bp.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error": "Email and password required"}), 400
+
+    result = AuthService.login(email, password)
+
+    if "error" in result:
+        return jsonify(result), 401
+
+    return jsonify(result), 200
