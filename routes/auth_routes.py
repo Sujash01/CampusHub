@@ -39,3 +39,31 @@ def login():
         return jsonify(result), 401
 
     return jsonify(result), 200
+
+@auth_bp.route("/refresh", methods=["POST"])
+def refresh():
+    data = request.get_json()
+    refresh_token = data.get("refresh_token")
+
+    if not refresh_token:
+        return jsonify({"error": "Refresh token required"}), 400
+
+    result = AuthService.refresh(refresh_token)
+
+    if "error" in result:
+        return jsonify(result), 401
+
+    return jsonify(result), 200
+
+
+@auth_bp.route("/logout", methods=["POST"])
+def logout():
+    data = request.get_json()
+    refresh_token = data.get("refresh_token")
+
+    if not refresh_token:
+        return jsonify({"error": "Refresh token required"}), 400
+
+    result = AuthService.logout(refresh_token)
+    return jsonify(result), 200
+
