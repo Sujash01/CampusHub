@@ -1,5 +1,6 @@
 from models.users import User
 from utils.security import hash_password, verify_password
+from utils.jwt_utils import generate_token
 
 
 class AuthService:
@@ -30,13 +31,15 @@ class AuthService:
         if not verify_password(password, user["password_hash"]):
             return {"error": "Invalid email or password"}
 
-        # NEVER return password hash
+        token = generate_token(user["id"], user["role"])
+
         return {
-            "message": "Login successful",
-            "user": {
-                "id": user["id"],
-                "name": user["name"],
-                "email": user["email"],
-                "role": user["role"]
-            }
+        "message": "Login successful",
+        "token": token,
+        "user": {
+            "id": user["id"],
+            "name": user["name"],
+            "email": user["email"],
+            "role": user["role"]
         }
+    }

@@ -14,3 +14,8 @@ class BaseConfig:
 
     DEBUG = False
     TESTING = False
+
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "jwt-dev-secret")
+    JWT_ALGORITHM = "HS256"
+    JWT_EXP_MINUTES = 60
+
