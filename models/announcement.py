@@ -47,3 +47,28 @@ class Announcement:
 
         cursor.close()
         conn.close()
+
+    @staticmethod
+    def update(announcement_id, title, content, priority):
+        conn = Database.get_connection()
+        cursor = conn.cursor()
+
+        query = """
+        UPDATE announcements
+        SET title=%s, content=%s, priority=%s
+        WHERE id=%s
+        """
+        cursor.execute(query, (title, content, priority, announcement_id))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+    @staticmethod
+    def update(announcement_id, title, content, priority):
+        if not title or not content:
+            return {"error": "Title and content are required"}
+
+        Announcement.update(announcement_id, title, content, priority)
+        return {"message": "Announcement updated"}
+

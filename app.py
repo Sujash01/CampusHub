@@ -9,6 +9,7 @@ from routes.auth_routes import auth_bp
 from routes.protected_routes import protected_bp
 from routes.admin_routes import admin_bp
 from routes.announcement_routes import announcement_bp
+from routes.event_routes import event_bp
 
 
 def create_app():
@@ -38,6 +39,7 @@ def create_app():
     app.register_blueprint(protected_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(announcement_bp)
+    app.register_blueprint(event_bp)
 
     return app
 

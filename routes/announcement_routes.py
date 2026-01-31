@@ -38,3 +38,21 @@ def create_announcement():
 def delete_announcement(announcement_id):
     result = AnnouncementService.delete(announcement_id)
     return jsonify(result), 200
+
+@announcement_bp.route("/<int:announcement_id>", methods=["PUT"])
+@jwt_required(role="admin")
+def update_announcement(announcement_id):
+    data = request.get_json()
+
+    title = data.get("title")
+    content = data.get("content")
+    priority = data.get("priority", "normal")
+
+    result = AnnouncementService.update(
+        announcement_id, title, content, priority
+    )
+
+    if "error" in result:
+        return jsonify(result), 400
+
+    return jsonify(result), 200
