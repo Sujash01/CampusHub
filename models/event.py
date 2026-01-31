@@ -15,8 +15,8 @@ class Event:
             query,
             (title, description, location, event_date, admin_id)
         )
-        conn.commit()
 
+        conn.commit()
         cursor.close()
         conn.close()
 
@@ -39,3 +39,29 @@ class Event:
         cursor.close()
         conn.close()
         return events
+
+    @staticmethod
+    def get_status(event_id):
+        conn = Database.get_connection()
+        cursor = conn.cursor()
+
+        query = "SELECT status FROM events WHERE id = %s"
+        cursor.execute(query, (event_id,))
+        row = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        return row[0] if row else None
+
+    @staticmethod
+    def set_status(event_id, status):
+        conn = Database.get_connection()
+        cursor = conn.cursor()
+
+        query = "UPDATE events SET status = %s WHERE id = %s"
+        cursor.execute(query, (status, event_id))
+
+        conn.commit()
+        cursor.close()
+        conn.close()

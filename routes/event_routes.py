@@ -32,3 +32,40 @@ def create_event():
         return jsonify(result), 400
 
     return jsonify(result), 201
+
+    @event_bp.route("/<int:event_id>/register", methods=["POST"])
+    @jwt_required()
+    def register_event(event_id):
+        from flask import g
+        result = EventService.register(event_id, g.user["user_id"])
+        if "error" in result:
+            return jsonify(result), 400
+        return jsonify(result), 200
+
+
+@event_bp.route("/<int:event_id>/unregister", methods=["POST"])
+@jwt_required()
+def unregister_event(event_id):
+    from flask import g
+    result = EventService.unregister(event_id, g.user["user_id"])
+    return jsonify(result), 200
+
+
+@event_bp.route("/<int:event_id>/close", methods=["POST"])
+@jwt_required(role="admin")
+def close_event(event_id):
+    return jsonify(EventService.close(event_id)), 200
+
+
+@event_bp.route("/<int:event_id>/open", methods=["POST"])
+@jwt_required(role="admin")
+def open_event(event_id):
+    return jsonify(EventService.open(event_id)), 200
+
+
+@event_bp.route("/<int:event_id>/attendees", methods=["GET"])
+@jwt_required(role="admin")
+def event_attendees(event_id):
+    attendees = EventService.attendees(event_id)
+    return jsonify(attendees), 200
+

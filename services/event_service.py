@@ -1,4 +1,5 @@
-from models.events import Event
+from models.event import Event
+from models.event_registration import EventRegistration
 
 
 class EventService:
@@ -13,3 +14,35 @@ class EventService:
     @staticmethod
     def get_all():
         return Event.get_all()
+
+    @staticmethod
+    def register(event_id, user_id):
+        status = Event.get_status(event_id)
+        if status != "open":
+            return {"error": "Registrations closed"}
+
+        try:
+            EventRegistration.register(event_id, user_id)
+        except Exception:
+            return {"error": "Already registered"}
+
+        return {"message": "Registered successfully"}
+
+    @staticmethod
+    def unregister(event_id, user_id):
+        EventRegistration.unregister(event_id, user_id)
+        return {"message": "Unregistered"}
+
+    @staticmethod
+    def close(event_id):
+        Event.set_status(event_id, "closed")
+        return {"message": "Event closed"}
+
+    @staticmethod
+    def open(event_id):
+        Event.set_status(event_id, "open")
+        return {"message": "Event opened"}
+
+    @staticmethod
+    def attendees(event_id):
+        return EventRegistration.list_attendees(event_id)
