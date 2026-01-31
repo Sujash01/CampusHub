@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request, jsonify
+from flask import request, jsonify, g
 from utils.jwt_utils import decode_token
 import jwt
 
@@ -16,6 +16,9 @@ def jwt_required(role=None):
             try:
                 token = auth_header.split(" ")[1]
                 payload = decode_token(token)
+
+                # 🔑 Attach payload to request context
+                g.user = payload
 
                 if role and payload["role"] != role:
                     return jsonify({"error": "Access denied"}), 403
