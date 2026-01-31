@@ -69,3 +69,11 @@ def event_attendees(event_id):
     attendees = EventService.attendees(event_id)
     return jsonify(attendees), 200
 
+@event_bp.route("/<int:event_id>/status", methods=["GET"])
+@jwt_required()
+def event_status(event_id):
+    from flask import g
+    is_registered = EventService.registration_status(
+        event_id, g.user["user_id"]
+    )
+    return jsonify({"registered": is_registered}), 200

@@ -46,3 +46,6 @@ class EventService:
     @staticmethod
     def attendees(event_id):
         return EventRegistration.list_attendees(event_id)
+@staticmethod
+def registration_status(event_id, user_id):
+    return EventRegistration.is_registered(event_id, user_id)

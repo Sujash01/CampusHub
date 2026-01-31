@@ -56,3 +56,17 @@ class EventRegistration:
         cursor.close()
         conn.close()
         return rows
+@staticmethod
+def is_registered(event_id, user_id):
+    conn = Database.get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT 1 FROM event_registrations WHERE event_id=%s AND user_id=%s",
+        (event_id, user_id)
+    )
+    exists = cursor.fetchone() is not None
+
+    cursor.close()
+    conn.close()
+    return exists
