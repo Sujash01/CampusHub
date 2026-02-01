@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-
+from flask_cors import CORS
 from config.dev import DevConfig
 from config.prod import ProdConfig
 from database.db import Database
@@ -14,6 +14,15 @@ from routes.event_routes import event_bp
 
 def create_app():
     app = Flask(__name__)
+
+    from flask_cors import CORS
+
+    CORS(
+        app,
+        supports_credentials=True,
+        resources={r"/*": {"origins": "*"}}
+    )
+
 
     env = os.getenv("FLASK_ENV", "development")
 

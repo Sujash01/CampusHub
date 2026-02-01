@@ -1,14 +1,9 @@
-import bcrypt
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def hash_password(password: str) -> str:
-    salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
-    return hashed.decode("utf-8")
+    # Always use werkzeug’s hashing
+    return generate_password_hash(password)
 
-
-def verify_password(password: str, hashed_password: str) -> bool:
-    return bcrypt.checkpw(
-        password.encode("utf-8"),
-        hashed_password.encode("utf-8")
-    )
+def verify_password(password: str, password_hash: str) -> bool:
+    # Correct way to verify hashed passwords
+    return check_password_hash(password_hash, password)

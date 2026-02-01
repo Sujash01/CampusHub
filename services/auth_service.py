@@ -29,6 +29,13 @@ class AuthService:
     def login(email, password):
         user = User.find_by_email(email)
 
+        print("USER:", user)
+        print("PASSWORD INPUT:", password)
+        print("PASSWORD HASH:", user["password_hash"])
+
+        from werkzeug.security import check_password_hash
+        print("CHECK RESULT:", check_password_hash(user["password_hash"], password))
+
         if not user or not verify_password(password, user["password_hash"]):
             return {"error": "Invalid email or password"}
 
@@ -58,9 +65,6 @@ class AuthService:
 
         if not stored:
             return {"error": "Invalid refresh token"}
-
-        user = User.find_by_email(stored["user_id"])  # explained below
-        # ❗ we don’t actually need full user lookup here
 
         new_access_token = generate_token(
             stored["user_id"],

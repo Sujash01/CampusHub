@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login";
+import Announcements from "./pages/Announcements";
 import Events from "./pages/Events";
 
 export default function App() {
@@ -8,8 +10,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/events" element={<Events />} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/announcements" element={<Announcements />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
