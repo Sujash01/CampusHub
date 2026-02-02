@@ -1,14 +1,48 @@
 @import "tailwindcss";
 
-/* Global dark theme defaults */
+/* ------------------------------
+   Global theme
+--------------------------------*/
 body {
   @apply bg-neutral-950 text-white font-sans;
 }
 
-.btn-primary {
-  @apply rounded-full bg-green-500 text-black font-bold px-6 py-3 hover:bg-green-400 transition;
+/* ------------------------------
+   Glass surfaces
+--------------------------------*/
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10;
 }
 
+.glass-elevated {
+  @apply bg-white/10 backdrop-blur-xl border border-white/15
+         shadow-lg shadow-black/30;
+}
+
+/* ------------------------------
+   Buttons (Campus-modern)
+--------------------------------*/
+
+/* Primary action (green) */
+.btn-primary {
+  @apply rounded-full bg-green-500 text-black font-semibold
+         px-6 py-3
+         transition-all duration-200 ease-out
+         shadow-md shadow-black/30;
+}
+
+.btn-primary:hover {
+  @apply bg-green-400 -translate-y-[2px]
+         shadow-lg shadow-black/40;
+}
+
+/* Secondary action */
 .btn-secondary {
-  @apply rounded-full bg-white/10 text-white font-semibold px-6 py-3 hover:bg-white/20 transition;
+  @apply rounded-full bg-white/10 text-white font-medium
+         px-6 py-3
+         transition-all duration-200 ease-out;
+}
+
+.btn-secondary:hover {
+  @apply bg-white/20 -translate-y-[2px];
 }

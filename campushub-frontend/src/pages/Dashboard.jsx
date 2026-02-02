@@ -1,7 +1,7 @@
 import Layout from "../components/Layout";
+import CampusPulse from "../components/CampusPulse";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import CampusPulse from "../components/CampusPulse";
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -28,7 +28,7 @@ export default function Dashboard() {
             "url(https://images.unsplash.com/photo-1523050854058-8df90110c9f1)",
         }}
       >
-        <div className="absolute inset-0 bg-black/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
 
         <div className="relative p-10">
           <h1 className="text-4xl font-bold text-white mb-2">
@@ -47,63 +47,59 @@ export default function Dashboard() {
         <Stat title="Announcements" value={stats?.announcements ?? "—"} />
       </div>
 
-      {/* CAMPUS PULSE + UPCOMING */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      {/* PULSE + UPCOMING */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <CampusPulse
+          items={[
+            {
+              type: "announcement",
+              title: "Mid-semester exams announced",
+              description:
+                "Exams will begin from 18th March. Timetable coming soon.",
+              time: "2h ago",
+            },
+            {
+              type: "event",
+              title: "Tech Fest registrations open",
+              description:
+                "Hackathons, workshops and competitions available.",
+              time: "5h ago",
+            },
+            {
+              type: "admin",
+              title: "Library timings updated",
+              description:
+                "Library now open till 11 PM on weekdays.",
+              time: "Yesterday",
+            },
+          ]}
+        />
 
-    <CampusPulse
-    items={[
-      {
-        type: "announcement",
-        title: "Mid-semester exams announced",
-        description:
-          "Exams will begin from 18th March. Timetable to be released soon.",
-        time: "2h ago",
-      },
-      {
-        type: "event",
-        title: "Tech Fest registrations open",
-        description:
-          "Register now to participate in hackathons and workshops.",
-        time: "5h ago",
-      },
-      {
-        type: "admin",
-        title: "New library timings",
-        description:
-          "Library will remain open till 11 PM starting Monday.",
-        time: "Yesterday",
-      },
-    ]}
-  />
+        <div className="glass rounded-2xl p-6">
+          <h2 className="text-xl font-bold text-green-400 mb-6">
+            Upcoming Events
+          </h2>
 
-  {/* UPCOMING EVENTS */}
-  <div className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-6">
-    <h2 className="text-xl font-bold text-green-400 mb-6">
-      Upcoming Events
-    </h2>
+          <ul className="space-y-4 text-gray-300">
+            <li className="flex justify-between">
+              <span>AI Workshop</span>
+              <span className="text-green-400">Tomorrow</span>
+            </li>
+            <li className="flex justify-between">
+              <span>Cultural Night</span>
+              <span className="text-green-400">Friday</span>
+            </li>
+            <li className="flex justify-between">
+              <span>Sports Meet</span>
+              <span className="text-green-400">Next Week</span>
+            </li>
+          </ul>
+        </div>
+      </div>
 
-    <ul className="space-y-4 text-gray-300">
-      <li className="flex justify-between">
-        <span>AI Workshop</span>
-        <span className="text-green-400">Tomorrow</span>
-      </li>
-      <li className="flex justify-between">
-        <span>Cultural Night</span>
-        <span className="text-green-400">Friday</span>
-      </li>
-      <li className="flex justify-between">
-        <span>Sports Meet</span>
-        <span className="text-green-400">Next Week</span>
-      </li>
-    </ul>
-  </div>
-
-</div>
-
-
-      {/* ADMIN QUICK ACTIONS */}
+      {/* ADMIN ACTIONS */}
       {user?.role === "admin" && (
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+        <div className="glass rounded-2xl p-6">
           <h2 className="text-xl font-bold text-green-400 mb-4">
             Admin Actions
           </h2>
@@ -120,10 +116,9 @@ export default function Dashboard() {
 
 function Stat({ title, value }) {
   return (
-    <div className="bg-white/5 backdrop-blur rounded-2xl p-6 border border-white/10">
+    <div className="glass-elevated rounded-2xl p-6 transition hover:-translate-y-[2px]">
       <p className="text-gray-400 text-sm">{title}</p>
       <p className="text-3xl font-bold text-green-400 mt-2">{value}</p>
     </div>
   );
 }
-
