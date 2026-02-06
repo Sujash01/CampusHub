@@ -1,80 +1,50 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../services/authService";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
+  const login = async () => {
+    const res = await axios.post("http://127.0.0.1:5000/auth/login", {
+      email,
+      password,
+    });
 
-    try {
-      const res = await loginUser(email, password);
+    localStorage.setItem("access_token", res.data.access_token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      localStorage.setItem("access_token", res.data.access_token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid email or password");
-    }
+    navigate("/dashboard");
   };
 
   return (
-    <div
-      className="min-h-screen bg-cover bg-center flex items-center justify-center"
-      style={{
-        backgroundImage:
-          "url(https://images.unsplash.com/photo-1503676260728-1c00da094a0b)",
-      }}
-    >
-      <div className="absolute inset-0 bg-black/80"></div>
-
-      <form
-        onSubmit={handleLogin}
-        className="relative bg-white/5 backdrop-blur-xl p-10 rounded-2xl shadow-2xl w-[400px] border border-white/10"
-      >
-        <h1 className="text-3xl font-bold text-green-400 text-center mb-6">
-          CampusHub
-        </h1>
-
-        {error && (
-          <p className="text-red-400 text-sm mb-4 text-center">{error}</p>
-        )}
+    <div className="page-bg min-h-screen flex items-center justify-center">
+      <div className="glass-elevated p-10 rounded-3xl w-[380px]">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
         <input
-          className="w-full bg-black/40 p-3 mb-4 rounded-full text-white border border-white/10 focus:ring-2 focus:ring-green-400 outline-none"
           placeholder="Email"
-          value={email}
+          className="w-full p-3 bg-black/40 rounded-xl mb-4"
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
           type="password"
-          className="w-full bg-black/40 p-3 mb-6 rounded-full text-white border border-white/10 focus:ring-2 focus:ring-green-400 outline-none"
           placeholder="Password"
-          value={password}
+          className="w-full p-3 bg-black/40 rounded-xl mb-6"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="w-full rounded-full bg-green-500 text-black py-3 font-bold hover:bg-green-400 transition">
+        <button onClick={login} className="btn-primary w-full">
           Login
         </button>
 
-        <p className="text-center text-gray-400 text-sm mt-6">
-          New here?{" "}
-          <Link
-            to="/register"
-            className="text-green-400 hover:underline"
-          >
-            Create an account
-          </Link>
+        <p className="text-center text-gray-400 mt-6 text-sm">
+          New user? <Link to="/register" className="text-green-400">Register</Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }
