@@ -1,3 +1,23 @@
+**# CampusHub**
+
+
+
+**!\[Python](https://img.shields.io/badge/Python-3.12-blue?logo=python)**
+
+**!\[Flask](https://img.shields.io/badge/Flask-Backend-black?logo=flask)**
+
+**!\[React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react)**
+
+**!\[MySQL](https://img.shields.io/badge/MySQL-Database-orange?logo=mysql)**
+
+**!\[TailwindCSS](https://img.shields.io/badge/TailwindCSS-UI-38BDF8?logo=tailwindcss)**
+
+**!\[JWT](https://img.shields.io/badge/Auth-JWT-green)**
+
+**!\[Status](https://img.shields.io/badge/Project-Complete-brightgreen)**
+
+**!\[License](https://img.shields.io/badge/License-MIT-blue)**
+
 **CampusHub**
 
 
